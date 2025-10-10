@@ -31,15 +31,17 @@ export default function ProjectHistory({ token, auth }) {
 
   return (
     <div className="border rounded-lg p-4 shadow-sm">
-      <h3 className="text-xl font-semibold mb-2">Project History</h3>
+      <h3 className="text-xl font-semibold mb-4">Project History</h3>
       {info && <p className="text-red-500">{info}</p>}
+
+      {projects.length === 0 && <p>No projects found.</p>}
 
       {projects.map((p) => (
         <div
           key={p._id}
-          className="border p-3 mb-3 rounded shadow hover:shadow-md"
+          className="border p-4 mb-4 rounded shadow hover:shadow-md"
         >
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center mb-2">
             <h4 className="font-semibold text-lg">{p.title}</h4>
             <button
               className="bg-red-500 text-white px-2 rounded hover:bg-red-600"
@@ -48,37 +50,44 @@ export default function ProjectHistory({ token, auth }) {
               Delete Project
             </button>
           </div>
-          <p>{p.description}</p>
-          <p className="text-sm">
+
+          <p className="mb-1">{p.description}</p>
+          <p className="text-sm text-gray-500 mb-2">
             Created At: {new Date(p.createdAt).toLocaleString()}
           </p>
 
-          {/* ✅ Show Tasks with Status */}
+          {/* Tasks */}
           {p.tasks && p.tasks.length > 0 ? (
-            <div className="mt-3">
-              <h5 className="font-semibold">Tasks:</h5>
-              <ul className="list-disc ml-6">
-                {p.tasks.map((t) => (
-                  <li key={t._id}>
-                    {t.title} -{" "}
-                    <span
-                      className={`${
-                        t.status === "Done"
-                          ? "text-green-600"
-                          : t.status === "In-progress"
-                          ? "text-yellow-600"
-                          : "text-red-600"
-                      }`}
-                    >
-                      {t.status}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : (
-            <p className="text-gray-500 mt-2">No tasks found</p>
-          )}
+  <div>
+    <h5 className="font-semibold mb-1">Tasks:</h5>
+    <ul className="ml-4 space-y-2"> {/* Add space-y-2 for spacing */}
+      {p.tasks.map((t) => (
+        <li key={t._id} className="flex justify-between items-center p-2 border rounded">
+          <div>
+            <span
+              className={`px-2 py-1 rounded text-white ${
+                t.status === "Done"
+                  ? "bg-green-500"
+                  : t.status === "In-progress"
+                  ? "bg-yellow-500"
+                  : "bg-gray-400"
+              }`}
+            >
+              {t.status}
+            </span>{" "}
+            {t.title} -{" "}
+            <span className="font-medium">
+              {t.assignedTo ? t.assignedTo.name : "Unassigned"}
+            </span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+) : (
+  <p className="text-gray-500 mt-2">No tasks found</p>
+)}
+
         </div>
       ))}
     </div>

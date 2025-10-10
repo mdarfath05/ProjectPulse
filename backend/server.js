@@ -6,7 +6,10 @@ const connectDB = require('./config/db');
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://projectpulse-frontend.onrender.com'],
+  credentials: true
+}));
 
 // Connect DB
 connectDB(process.env.MONGO_URI);

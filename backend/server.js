@@ -26,7 +26,7 @@ connectDB();
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/projects', require('./routes/projects'));
-app.use('/api/messages', require('./routes/message')); // if you have a messages route file
+//app.use('/api/messages', require('./routes/message')); // if you have a messages route file
 
 // Test route
 app.get('/api/test', (req, res) => res.json({ message: 'Hello from backend' }));

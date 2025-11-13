@@ -30,13 +30,16 @@ app.use('/api/projects', require('./routes/projects'));
 app.get('/api/test', (req, res) => res.json({ message: 'Hello from backend' }));
 
 // Serve frontend static files
-const distPath = path.join(__dirname, '../frontend/dist');
+const distPath = path.resolve(__dirname, '..', 'frontend', 'dist');
+console.log("Serving frontend from:", distPath);
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(distPath));
   app.get('*', (req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
   });
 }
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
